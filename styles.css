@@ -1,0 +1,224 @@
+body {
+    background-image: url("images/bg1.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: grab;
+}
+
+
+
+h1 {
+    width: fit-content;
+    margin: 50px auto 20px auto;
+    padding: 20px 50px;
+    background-color: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    color: #2c3e50;
+    font-size: 70px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-align: center;
+    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    color: #2c3e50;
+    font-size: 32px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+p {
+    text-align: center;
+    color: #4b5563;
+    font-size: 24px;
+    line-height: 1.7;
+    max-width: 900px;
+    margin: 20px auto;
+}
+
+
+table {
+    margin: auto;
+    margin-bottom: 20px;
+    width: 80%;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+th {
+    background-color: #5b6368;
+    color: white;
+    padding: 15px;
+    padding-top: 20px;
+    padding-right: 20px;
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #dddddd;
+    background-color: #72ed5f25;
+}
+
+button {
+    background-color: #5b6368;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 16px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background-color: #787f85;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.ensemble1 {
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.5);
+    margin: 30px;
+    margin-left: 150px;
+    margin-right: 150px;
+    border-radius: 40px;
+    padding: 5px;
+    box-shadow: 0px 0px 20px black;
+}
+
+
+.ensemble2 {
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.5);
+    margin: 30px;
+    margin-left: 150px;
+    margin-right: 150px;
+    border-radius: 40px;
+    padding: 5px;
+    box-shadow: 0px 0px 20px black;
+}
+
+
+.ensemble3 {
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.5);
+    margin: 30px;
+    margin-left: 150px;
+    margin-right: 150px;
+    border-radius: 40px;
+    padding: 5px;
+    box-shadow: 0px 0px 20px black;
+}
+
+select {
+    font-size: 20px;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 40px;
+    box-shadow: 0px 0px 20px black;
+}
+
+input {
+    font-size: 20px;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 40px;
+    box-shadow: 0px 0px 20px black;
+}
+
+span {
+    text-align: center;
+    color: #4b5563;
+    font-size: 24px;
+    line-height: 1.7;
+    max-width: 900px;
+    margin: 20px auto;
+}
+
+.ensemble4 {
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.5);
+    margin-left: 150px;
+    margin-right: 150px;
+    border-radius: 40px;
+    padding: 5px;
+    box-shadow: 0px 0px 20px black;
+}
+
+
+.chargement {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.text_de_chargement {
+    color: aliceblue;
+    size: 100px;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+
+    background: rgba(0,0,0,0.5);
+
+    justify-content: center;
+    align-items: center;
+
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 10px;
+
+    min-width: 400px;
+
+    text-align: center;
+}
+
+.modal-content input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 15px;
+}
+
+.modal-buttons {
+    margin-top: 20px;
+
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}

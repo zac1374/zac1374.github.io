@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Réservation Machine</title>
+
+    <link rel="stylesheet" href="styles.css">
+
+    <script src="backend.js"></script>
+</head>
+
+
+<body>
+    
+    <div id="divChargement" class="chargement">
+        <div class="contenuEcranCargement">
+            <p class="text_de_chargement" style="width: auto;">Chargement ...</p>
+        </div>
+    </div>
+
+    <div class="ensemble1">
+        <h1>Réservation Machine</h1>
+        <h2>Prenez rendez-vous le matin ou l'après-midi tout les lundi au vendredi</h2>
+    </div>
+
+    <div class="ensemble4">
+        <button onclick="anneePrecedente()">⟸</button>
+        <button onclick="semainePrecedente()">←</button>
+        <span id="titreSemaine">Semaine du 05/01/2026</span>
+        <button onclick="semaineSuivante()">→</button>
+        <button onclick="anneeSuivante()">⟹</button>
+    </div>
+    
+    <div class="ensemble2">
+         <p>Tableau de réservation:</p>
+        <!-- Tableau de reservation e bas -->
+        <table border="1">
+            <tr>
+                <th>Réservation</th>
+                <th>Matin</th>
+                <th>Après-midi</th>
+            </tr>
+            <tr>
+                <th>Lundi</th>
+                <td id="lundi_matin" onclick="clicksurunecase(event)"> </td>
+                <td id= "lundi_apres-midi" onclick="clicksurunecase(event)"> </td>
+            </tr>
+            <tr>
+                <th>Mardi</th>
+                <td id="mardi_matin" onclick="clicksurunecase(event)"> </td>
+                <td id="mardi_apres-midi" onclick="clicksurunecase(event)"> </td>
+            </tr>
+            <tr>
+                <th>Mercredi</th>
+                <td id="mercredi_matin" onclick="clicksurunecase(event)"> </td>
+                <td id="mercredi_apres-midi" onclick="clicksurunecase(event)"> </td>
+            </tr>
+            <tr>
+                <th>Jeudi</th>
+                <td id="jeudi_matin" onclick="clicksurunecase(event)"> </td>
+                <td id="jeudi_apres-midi" onclick="clicksurunecase(event)"> </td>
+            </tr>
+            <tr>
+                <th>Vendredi</th>
+                <td id="vendredi_matin" onclick="clicksurunecase(event)"> </td>
+                <td id="vendredi_apres-midi" onclick="clicksurunecase(event)"> </td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="modalReservation" class="modal">
+        <div class="modal-content">
+
+            <h2>Voulez-vous réserver ce créneau ?</h2>
+
+            <p id="infoReservation"></p>
+
+            <input
+                type="text"
+                id="nomModal"
+                placeholder="Entrez votre nom"
+            >
+
+            <div class="modal-buttons">
+                <button onclick="fermerModal()">Annuler</button>
+                <button onclick="validerReservation()">Valider</button>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+
+<script>
+
+    let jourSelectionne = "";
+    let horaireSelectionne = "";
+
+    const dt = Temporal.Now.plainDateTimeISO();
+    const vert = "#72ed5f25"
+    const rouge = "#ed775f35"
+    const tab_jour = ["lundi", "mardi", "mercredi", "jeudi", "vendredi"]
+    const tab_horaire = ["matin", "apres-midi"]
+    const aujourdHui = new Date();
+
+    var chargement = document.getElementById("divChargement");
+
+    let semaineCourante = dt.weekOfYear;
+    let anneeCourante = dt.year;
+
+    function mettreAJourTitreSemaine() {
+
+        const date = Temporal.PlainDate.from({
+            year: anneeCourante,
+            month: 1,
+            day: 4
+        });
+
+        const debutSemaine1 =
+            date.subtract({ days: date.dayOfWeek - 1 });
+
+        const lundi =
+            debutSemaine1.add({ weeks: semaineCourante - 1 });
+
+        const dateTexte =
+            String(lundi.day).padStart(2, "0") + "/" +
+            String(lundi.month).padStart(2, "0") + "/" +
+            lundi.year;
+
+        document.getElementById("titreSemaine").textContent =
+            "Semaine du " + dateTexte;
+    }
+
+    async function anneeSuivante() {
+        anneeCourante++;
+        mettreAJourTitreSemaine();
+        chargement.style.display = "block";
+        await getReservations();
+        chargement.style.display = "none";
+    }
+
+    async function anneePrecedente() {
+        anneeCourante--;
+        mettreAJourTitreSemaine();
+        chargement.style.display = "block";
+        await getReservations();
+        chargement.style.display = "none";
+    }
+
+    async function semaineSuivante() {
+        semaineCourante++;
+        mettreAJourTitreSemaine();
+        chargement.style.display = "block";
+        await getReservations();
+        chargement.style.display = "none";
+    }
+
+    async function semainePrecedente() {
+        semaineCourante--;
+        mettreAJourTitreSemaine();
+        chargement.style.display = "block";
+        await getReservations();
+        chargement.style.display = "none";
+    }
+    
+    function getReservations() 
+    {
+        
+        return MockBackend.getReservations()
+            .then(string_reservations => { traite_reservation(string_reservations); });
+    }
+
+    function delete_resa () {
+        for (const jour of tab_jour) {
+            for (const horaire of tab_horaire) {
+                document.getElementById(jour+"_"+horaire).innerHTML= ``;
+                document.getElementById(jour+"_"+horaire).style.backgroundColor = vert;
+            }
+        }     
+    }
+
+    function clicksurunecase(event) {
+
+        const idCase = event.currentTarget.id;
+
+        jourSelectionne = idCase.split("_")[0];
+        horaireSelectionne = idCase.split("_")[1];
+
+        if (event.currentTarget.innerHTML.trim() !== "") {
+            return;
+        }
+
+        document.getElementById("infoReservation").innerHTML =
+            `${jourSelectionne} - ${horaireSelectionne}`;
+
+        document.getElementById("modalReservation").style.display = "flex";
+    }
+
+    function fermerModal() {
+
+        document.getElementById("modalReservation").style.display = "none";
+
+        document.getElementById("nomModal").value = "";
+    }
+
+    async function validerReservation() {
+
+        const nom =
+            document.getElementById("nomModal").value.trim();
+
+        if (nom === "") {
+            alert("Veuillez entrer votre nom");
+            return;
+        }
+
+        const resa = {
+            date: jourSelectionne,
+            creneau: horaireSelectionne,
+            developpeur: nom,
+            statut: "Option",
+            semaine: semaineCourante,
+            annee: anneeCourante
+        };
+
+        try {
+
+            chargement.style.display = "block";
+
+            await MockBackend.addReservation(resa);
+
+            await getReservations();
+
+            fermerModal();
+
+        } catch (e) {
+
+            alert(e.message);
+
+        } finally {
+
+            chargement.style.display = "none";
+
+        }
+    }
+
+    async function soumetleform(event) {
+        event.preventDefault();
+        const resa = {
+            date: document.getElementById("jour").value,
+            creneau: document.getElementById("horaire").value,
+            developpeur: document.getElementById("nom").value,
+            statut: "Option",
+            semaine: semaineCourante,
+            annee: anneeCourante
+        };
+        console.log(resa);
+        const resultat = await MockBackend.addReservation(resa);
+        chargement.style.display = "block";
+        await getReservations();
+        chargement.style.display = "none";
+    }
+
+    function affiche(resa) {
+        document.getElementById(resa.date+"_"+resa.creneau).innerHTML= `Reservé par ${resa.developpeur} <img src="images/poubelle.png" width="32" height="32" onclick="MockBackend.deleteReservation(${resa.id}).then(getReservations())" style="cursor:pointer; margin-left:8px; vertical-align: middle; ">`;
+        document.getElementById(resa.date+"_"+resa.creneau).style.backgroundColor = rouge;
+    }
+
+    function traite_reservation(str_resa) {
+        delete_resa();
+
+        const tab_resa= JSON.parse(str_resa);
+            for (const resa of tab_resa) {
+                if (resa.semaine === semaineCourante && resa.annee === anneeCourante) {
+                    affiche(resa);
+                }
+            }
+    }
+    async function loading(){
+        mettreAJourTitreSemaine();
+        chargement.style.display = "block";
+        await getReservations();
+        chargement.style.display = "none";
+    };
+
+    loading();
+</script>
+</html>
